@@ -25,7 +25,7 @@ import com.googlecode.objectify.util.DAOBase;
  * 
  * @param <T>
  */
-public class ObjectifyDao<T> extends DAOBase
+public abstract class ObjectifyDao<T> extends DAOBase
 {
 
   static final int BAD_MODIFIERS = Modifier.FINAL | Modifier.STATIC
