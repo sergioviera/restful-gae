@@ -15,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response;	
 import javax.ws.rs.core.UriInfo;
 
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -44,6 +44,8 @@ public class CategoryResource {
 			logger.info("retrieved category: "+retrievedCategory.toString());
 		} catch(EntityNotFoundException enfe) {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
+		} catch(Exception e) {
+			throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
 		}
 		return retrievedCategory;
 	}
@@ -69,7 +71,6 @@ public class CategoryResource {
 		logger.info("received category: "+category.toString());
 		Category newCategory = null;
 		if(categoryDao.getByField("name", category.getName()).iterator().hasNext()) {
-			logger.info("category by name: "+category.getName()+" already exists");
 			throw new WebApplicationException(Response.Status.CONFLICT);
 		}
 		
@@ -92,6 +93,8 @@ public class CategoryResource {
 			logger.info("retrieved category: "+retrievedCategory.toString());
 		} catch(EntityNotFoundException enfe) {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
+		} catch(Exception e) {
+			throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
 		}
 		
 		retrievedCategory.setName(category.getName());
@@ -110,9 +113,12 @@ public class CategoryResource {
 			logger.info("retrieved category: "+retrievedCategory.toString());
 		} catch(EntityNotFoundException enfe) {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
+		} catch(Exception e) {
+			throw new WebApplicationException(Response.Status.INTERNAL_SERVER_ERROR);
 		}
 		categoryDao.delete(retrievedCategory);
 		logger.info("deleted category: "+retrievedCategory.toString());
 		return Response.noContent().build();
 	}
+	
 }
